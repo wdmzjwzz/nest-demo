@@ -3,6 +3,7 @@ import { GatewayController } from './gateway.controller';
 import { GatewayService } from './gateway.service';
 import { ClientsModule } from '@nestjs/microservices';
 import { AUTH_SERVICE_GRPC_SERVICE_NAME, authClientOptions } from '@app/grpc';
+import { ClientSocketGateway } from './client-socket/client-socket.gateway'; 
 
 @Module({
   imports: [ 
@@ -14,6 +15,6 @@ import { AUTH_SERVICE_GRPC_SERVICE_NAME, authClientOptions } from '@app/grpc';
     ]), 
   ],
   controllers: [GatewayController],
-  providers: [GatewayService],
+  providers: [GatewayService, ClientSocketGateway],
 })
 export class GatewayModule { }

@@ -7,6 +7,6 @@ export class GatewayController {
 
   @Get()
   getHello() {
-    return this.gatewayService.getHello();
+    return this.gatewayService.checkToken();
   }
 }

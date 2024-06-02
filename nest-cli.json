@@ -40,6 +40,24 @@
       "compilerOptions": {
         "tsConfigPath": "apps/gateway/tsconfig.app.json"
       }
+    },
+    "heros": {
+      "type": "application",
+      "root": "apps/heros",
+      "entryFile": "main",
+      "sourceRoot": "apps/heros/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/heros/tsconfig.app.json"
+      }
+    },
+    "grpc": {
+      "type": "library",
+      "root": "libs/grpc",
+      "entryFile": "index",
+      "sourceRoot": "libs/grpc/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/grpc/tsconfig.lib.json"
+      }
     }
   }
 }

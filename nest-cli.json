@@ -6,19 +6,21 @@
     "deleteOutDir": true,
     "webpack": true,
     "tsConfigPath": "apps/nest_demo/tsconfig.app.json",
-    "assets": ["**/*.proto"],
+    "assets": [
+      "**/*.proto"
+    ],
     "watchAssets": true
   },
   "monorepo": true,
   "root": "apps/nest_demo",
   "projects": {
-    "nest_demo": {
-      "type": "application",
-      "root": "apps/nest_demo",
-      "entryFile": "main",
-      "sourceRoot": "apps/nest_demo/src",
+    "common": {
+      "type": "library",
+      "root": "libs/common",
+      "entryFile": "index",
+      "sourceRoot": "libs/common/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/nest_demo/tsconfig.app.json"
+        "tsConfigPath": "libs/common/tsconfig.lib.json"
       }
     },
     "auth": {
@@ -37,15 +39,6 @@
       "sourceRoot": "apps/gateway/src",
       "compilerOptions": {
         "tsConfigPath": "apps/gateway/tsconfig.app.json"
-      }
-    },
-    "common": {
-      "type": "library",
-      "root": "libs/common",
-      "entryFile": "index",
-      "sourceRoot": "libs/common/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/common/tsconfig.lib.json"
       }
     }
   }

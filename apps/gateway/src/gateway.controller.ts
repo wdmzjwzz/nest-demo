@@ -6,9 +6,7 @@ export class GatewayController {
   constructor(private readonly gatewayService: GatewayService) { }
 
   @Get()
-  getHello(): string {
-    const data = this.gatewayService.getHero()
-    data.subscribe(item => console.log(item, 222222))
+  getHello() {
     return this.gatewayService.getHello();
   }
 }

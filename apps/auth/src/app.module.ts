@@ -4,9 +4,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
 import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
+import { AuthService } from './services/auth.service';
 import { AuthGuard } from './auth.guard';
 import { APP_GUARD } from '@nestjs/core';
+import { VertifyCodeService } from './services/vertifyCodeService';
 
 @Module({
   imports: [
@@ -29,12 +30,13 @@ import { APP_GUARD } from '@nestjs/core';
   ],
   providers: [
     AuthService,
+    VertifyCodeService,
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
     },
   ],
   controllers: [AuthController],
-  exports: [AuthService],
+  exports: [AuthService,VertifyCodeService],
 })
 export class AppModule { }

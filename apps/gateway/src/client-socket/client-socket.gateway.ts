@@ -20,7 +20,7 @@ export class ClientSocketGateway {
   }
 
   @SubscribeMessage('identity')
-  async identity(@MessageBody() data: number): Promise<string> {
+  async identity(@MessageBody() data: number) {
     const checkToken = await this.gatewayService.checkToken(); 
     return checkToken;
   }

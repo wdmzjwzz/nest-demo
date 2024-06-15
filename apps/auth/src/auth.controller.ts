@@ -6,6 +6,7 @@ import { CreateUserDto } from './users/dto/create-user.dto';
 import { Public } from './decorators/public.decorator';
 import { AuthService } from './services/auth.service';
 import { VertifyCodeService } from './services/vertifyCodeService';
+import { Observable, of } from 'rxjs';
 
 @Controller('define')
 @AuthServiceGrpcControllerMethods()
@@ -15,12 +16,12 @@ export class AuthController implements AuthServiceGrpcController {
     private codeService: VertifyCodeService
   ) { }
 
-  async checkToken({ token }: CheckTokenReq): Promise<CheckTokenRes> {
-    return {
+  checkToken({ token }: CheckTokenReq): Observable<CheckTokenRes> {
+    return of({
       data: {
         account: '1111111'
       },
-    }
+    })
   }
 
   @Public()
@@ -31,7 +32,7 @@ export class AuthController implements AuthServiceGrpcController {
       const { email, code } = createUserDto;
       const targetCode = this.codeService.getCodeInfo(email);
       const now = new Date().getTime();
-      const isVertify = (now - targetCode?.createTime <= 5 * 60 * 1000) && Number(targetCode.code) === Number(code); 
+      const isVertify = (now - targetCode?.createTime <= 5 * 60 * 1000) && Number(targetCode.code) === Number(code);
 
       if (!targetCode || !code || !isVertify) {
         return new SuccessResponse('验证码错误或失效')

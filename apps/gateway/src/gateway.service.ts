@@ -19,11 +19,7 @@ export class GatewayService {
   async checkToken() {
     const $data = this.authServiceClient.checkToken({
       token: '22222'
-    })
-    const { data } = await firstValueFrom($data);
-    return 'Hello World GatewayService!' + data.account;
-  }
-
-
-
+    }) 
+    return $data;
+  } 
 }

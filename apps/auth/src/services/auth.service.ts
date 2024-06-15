@@ -13,15 +13,9 @@ export class AuthService {
   ) { }
 
   async register(createUserDto: CreateUserDto): Promise<User> {
-    const targetUser = await this.findOneByEmail(createUserDto.email);
-    if (targetUser) {
-      throw new Error('email has been used');
-    }
-
     const user = new User();
     Object.assign(user, createUserDto)
     user.createTime = String(new Date().getTime());
-
     return this.usersService.create(user);
   }
 
@@ -31,12 +25,8 @@ export class AuthService {
   findOneByEmail(email: string): Promise<User> {
     return this.usersService.findOneByEmail(email);
   }
-  async signIn(createUserDto: CreateUserDto): Promise<string> {
-    const targetUser = await this.usersService.findOneByEmail(createUserDto.email);
-    if (createUserDto?.password !== targetUser?.password) {
-      throw new Error('用户名或密码错误');
-    }
-    const payload = { email: createUserDto.email, sub: targetUser.id };
+  async signIn(createUserDto: CreateUserDto, userId: number): Promise<string> {
+    const payload = { email: createUserDto.email, sub: userId };
     const token = await this.jwtService.signAsync(payload)
     return token
   }

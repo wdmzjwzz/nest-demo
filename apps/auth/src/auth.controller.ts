@@ -24,10 +24,11 @@ export class AuthController implements AuthServiceGrpcController {
     })
   }
 
+
   @Public()
   @HttpCode(HttpStatus.OK)
-  @Post('regist')
-  async create(@Body() createUserDto: CreateUserDto) {
+  @Post('login')
+  async login(@Body() createUserDto: CreateUserDto) {
     try {
       const { email, code } = createUserDto;
       const targetCode = this.codeService.getCodeInfo(email);
@@ -37,21 +38,11 @@ export class AuthController implements AuthServiceGrpcController {
       if (!targetCode || !code || !isVertify) {
         return new SuccessResponse('验证码错误或失效')
       }
-
-      await this.authService.register(createUserDto);
-      return new SuccessResponse('注册成功！')
-    } catch (error) {
-      return new ErrorResponse(error.message)
-    }
-
-  }
-
-  @Public()
-  @HttpCode(HttpStatus.OK)
-  @Post('login')
-  async login(@Body() createUserDto: CreateUserDto) {
-    try {
-      const token = await this.authService.signIn(createUserDto);
+      let user = await this.authService.findOneByEmail(email);
+      if (!user) {
+        user = await this.authService.register(createUserDto);
+      }
+      const token = await this.authService.signIn(createUserDto, user.id);
       return new SuccessResponse(token)
     } catch (error) {
       return new ErrorResponse(error.message)
@@ -75,5 +66,5 @@ export class AuthController implements AuthServiceGrpcController {
       return new ErrorResponse(error.message)
     }
 
-  }
+  } 
 }

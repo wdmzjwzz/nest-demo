@@ -11,10 +11,7 @@ export class User {
   @Column({
     nullable: true
   })
-  userName: string;
-
-  @Column()
-  password: string;
+  userName: string; 
 
   @Column()
   createTime: string;

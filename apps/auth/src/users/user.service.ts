@@ -12,10 +12,6 @@ export class UserService {
   ) { }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const targetUser = await this.findOneByEmail(createUserDto.email);
-    if (targetUser) {
-      throw new Error('email has been used');
-    }
     const user = new User();
     Object.assign(user, createUserDto)
     user.createTime = String(new Date().getTime());
@@ -26,7 +22,7 @@ export class UserService {
   async findAll(): Promise<User[]> {
     return this.usersRepository.find();
   }
-  findOneByEmail(email: string): Promise<User> {
+  async findOneByEmail(email: string): Promise<User> {
     return this.usersRepository.findOneBy({ email });
   }
 

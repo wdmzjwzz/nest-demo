@@ -3,6 +3,7 @@ import { MessageBody, SubscribeMessage, WebSocketGateway, WebSocketServer, WsRes
 import { Observable, interval, map } from 'rxjs';
 import { Server } from 'socket.io';
 import { GatewayService } from '../gateway.service';
+import { error } from 'console';
 
 @WebSocketGateway(ServerPort.WebSocketPort, {
   cors: {
@@ -19,9 +20,20 @@ export class ClientSocketGateway {
     return interval(1000).pipe(map(item => ({ event: 'events', data: item })));
   }
 
-  @SubscribeMessage('identity')
-  async identity(@MessageBody() data: number) {
-    const checkToken = await this.gatewayService.checkToken(); 
-    return checkToken;
+  @SubscribeMessage('EnterGame')
+  async enterGame(@MessageBody() data: any) {
+    const { token } = data
+    try {
+      const payload = await this.gatewayService.checkToken(token);
+      
+      return payload.pipe(map(item => ({ event: 'EnterGame', data: item.data })));
+    } catch (error) {
+      return {
+        event: 'EnterGame',
+        data: {
+          error: 'token 失效'
+        }
+      };
+    }
   }
 }

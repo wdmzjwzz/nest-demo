@@ -16,12 +16,13 @@ export class AuthController implements AuthServiceGrpcController {
     private codeService: VertifyCodeService
   ) { }
 
-  checkToken({ token }: CheckTokenReq): Observable<CheckTokenRes> {
-    return of({
+  async checkToken({ token }: CheckTokenReq): Promise<CheckTokenRes> {
+    const res = await this.authService.vertifyToken(token); 
+    return {
       data: {
-        account: '1111111'
+        account: res.email,
       },
-    })
+    }
   }
 
 
@@ -66,5 +67,5 @@ export class AuthController implements AuthServiceGrpcController {
       return new ErrorResponse(error.message)
     }
 
-  } 
+  }
 }

@@ -16,10 +16,8 @@ export class GatewayService {
     this.authServiceClient = this.client.getService<AuthServiceGrpcClient>(AUTH_SERVICE_GRPC_SERVICE_NAME);
   }
 
-  async checkToken() {
-    const $data = this.authServiceClient.checkToken({
-      token: '22222'
-    }) 
+  async checkToken(token: string) {
+    const $data = this.authServiceClient.checkToken({ token })
     return $data;
-  } 
+  }
 }

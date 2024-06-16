@@ -49,6 +49,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/grpc/tsconfig.lib.json"
       }
+    },
+    "game": {
+      "type": "application",
+      "root": "apps/game",
+      "entryFile": "main",
+      "sourceRoot": "apps/game/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/game/tsconfig.app.json"
+      }
     }
   }
 }

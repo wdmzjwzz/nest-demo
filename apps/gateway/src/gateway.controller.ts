@@ -5,8 +5,8 @@ import { GatewayService } from './gateway.service';
 export class GatewayController {
   constructor(private readonly gatewayService: GatewayService) { }
 
-  @Get()
-  getHello() {
-    return this.gatewayService.checkToken();
-  }
+  // @Get()
+  // getHello() {
+  //   return this.gatewayService.checkToken();
+  // }
 }

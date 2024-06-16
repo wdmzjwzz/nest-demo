@@ -24,7 +24,7 @@ import { VertifyCodeService } from './services/vertifyCodeService';
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '60s' },
+      signOptions: { expiresIn: '10h' },
     }),
     UserModule,
   ],

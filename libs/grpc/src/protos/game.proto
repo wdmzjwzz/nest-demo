@@ -7,7 +7,7 @@ service GameServiceGrpc {
 }
 
 message EnterGameReq {
-  string account = 1;
+  string email = 1;
   string paylod = 2;
 }
 
@@ -17,7 +17,7 @@ message EnterGameRes {
 }
 
 message EnterGameResData {
-  string account = 2;
+  string email = 2;
 }
 
 // 获取当前玩家的角色列表
@@ -108,7 +108,7 @@ message IActor{
   float posX = 3;
   float posY = 4;
   int32 type = 5;
-  string account = 6;
+  string email = 6;
   int32 sceneId = 7;
 }
 

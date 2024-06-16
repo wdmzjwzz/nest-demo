@@ -5,8 +5,7 @@ import { ErrorResponse, SuccessResponse } from '@app/common';
 import { CreateUserDto } from './users/dto/create-user.dto';
 import { Public } from './decorators/public.decorator';
 import { AuthService } from './services/auth.service';
-import { VertifyCodeService } from './services/vertifyCodeService';
-import { Observable, of } from 'rxjs';
+import { VertifyCodeService } from './services/vertifyCodeService'; 
 
 @Controller('define')
 @AuthServiceGrpcControllerMethods()
@@ -20,7 +19,7 @@ export class AuthController implements AuthServiceGrpcController {
     const res = await this.authService.vertifyToken(token); 
     return {
       data: {
-        account: res.email,
+        email: res.email,
       },
     }
   }

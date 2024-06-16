@@ -25,7 +25,10 @@ export class ClientSocketGateway {
     const { token } = data
     try {
       const payload = await this.gatewayService.checkToken(token);
-      
+      payload.subscribe(data => { 
+        this.gatewayService.enterGame(data.data.email);
+      })
+
       return payload.pipe(map(item => ({ event: 'EnterGame', data: item.data })));
     } catch (error) {
       return {

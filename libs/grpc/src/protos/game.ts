@@ -9,7 +9,7 @@ import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
 import { Observable } from "rxjs";
 
 export interface EnterGameReq {
-  account: string;
+  email: string;
   paylod: string;
 }
 
@@ -19,7 +19,7 @@ export interface EnterGameRes {
 }
 
 export interface EnterGameResData {
-  account: string;
+  email: string;
 }
 
 /** 获取当前玩家的角色列表 */
@@ -107,7 +107,7 @@ export interface IActor {
   posX: number;
   posY: number;
   type: number;
-  account: string;
+  email: string;
   sceneId: number;
 }
 

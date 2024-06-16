@@ -16,5 +16,5 @@ message CheckTokenRes {
 }
 
 message CheckTokenResData {
-  string account = 2;
+  string email = 2;
 }

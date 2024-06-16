@@ -2,6 +2,7 @@
 import { AUTH_SERVICE_GRPC_SERVICE_NAME, AuthServiceGrpcClient, GAME_SERVICE_GRPC_SERVICE_NAME, GameServiceGrpcClient } from '@app/grpc';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
+import { firstValueFrom, map } from 'rxjs';
 
 @Injectable()
 export class GatewayService {
@@ -20,14 +21,15 @@ export class GatewayService {
 
   async checkToken(token: string) {
     const $data = this.authServiceClient.checkToken({ token })
-    return $data;
+    return firstValueFrom($data);
   }
 
-  async enterGame(email: string) {
+  async enterGame(email: string, id: string) {
     const $data = this.gameServiceClient.enterGame({
       email: email,
-      paylod: 'enterGame'
-    }) 
-    return $data.subscribe(data=> console.log('进入游戏3===', data));
+      id
+    }).pipe(map(({ player }) => player))
+
+    return firstValueFrom($data);
   }
 }

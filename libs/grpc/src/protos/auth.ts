@@ -19,6 +19,7 @@ export interface CheckTokenRes {
 
 export interface CheckTokenResData {
   email: string;
+  id: string;
 }
 
 export interface AuthServiceGrpcClient {

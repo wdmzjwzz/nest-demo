@@ -5,7 +5,7 @@ import { ErrorResponse, SuccessResponse } from '@app/common';
 import { CreateUserDto } from './users/dto/create-user.dto';
 import { Public } from './decorators/public.decorator';
 import { AuthService } from './services/auth.service';
-import { VertifyCodeService } from './services/vertifyCodeService'; 
+import { VertifyCodeService } from './services/vertifyCodeService';
 
 @Controller('define')
 @AuthServiceGrpcControllerMethods()
@@ -20,6 +20,7 @@ export class AuthController implements AuthServiceGrpcController {
     return {
       data: {
         email: res.email,
+        id: res.sub
       },
     }
   }

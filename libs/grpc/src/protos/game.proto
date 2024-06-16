@@ -8,17 +8,14 @@ service GameServiceGrpc {
 
 message EnterGameReq {
   string email = 1;
-  string paylod = 2;
+  string id = 2;
 }
 
 message EnterGameRes {
-  EnterGameResData data = 1;
+  string player = 1;
   optional string error = 2;
 }
-
-message EnterGameResData {
-  string email = 2;
-}
+ 
 
 // 获取当前玩家的角色列表
 message ListActorReq {

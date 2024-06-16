@@ -8,7 +8,7 @@ interface CodeInfo {
 export class VertifyCodeService {
     private codeCacheMap: Map<string, CodeInfo> = new Map()
 
-    async sendMail(to: string[], title: string, message: string) {  
+    async sendMail(to: string[], title: string, message: string) {
         const transporter = nodemailer.createTransport({
             host: "smtp.qq.com",
             port: 465,
@@ -37,8 +37,6 @@ export class VertifyCodeService {
                     reject(error);
                     return
                 }
-                console.log(`Message: ${info.messageId}`);
-                console.log(`sent: ${info.response}`);
                 resolve(info.response)
             });
         })

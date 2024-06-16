@@ -6,16 +6,10 @@ import { GameServiceGrpcControllerMethods, GameServiceGrpcController, EnterGameR
 @GameServiceGrpcControllerMethods()
 export class GameController implements GameServiceGrpcController {
   constructor(private readonly gameService: GameService) { }
-  enterGame(request: EnterGameReq, ...rest: any): Promise<EnterGameRes> { 
-    return Promise.resolve({
-      data: {
-        email: 'gameServer进入游戏',
-      }
-    })
-  }
-
-  @Get()
-  getHello(): string {
-    return this.gameService.getHello();
+  async enterGame(request: EnterGameReq, ...rest: any): Promise<EnterGameRes> {
+    const player = await this.gameService.enterGame(request); 
+    return {
+      player: JSON.stringify(player)
+    }
   }
 }

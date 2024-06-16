@@ -3,6 +3,7 @@ import { GameModule } from './game.module';
 import { ServerPort } from '@app/common';
 import { MicroserviceOptions } from '@nestjs/microservices';
 import { gameClientOptions } from '@app/grpc';
+import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(GameModule);
@@ -10,6 +11,6 @@ async function bootstrap() {
   await app.startAllMicroservices();
 
   await app.listen(ServerPort.Game);
-  console.log(`ServerPort.Game start ${ServerPort.Game}`);
+  Logger.log(`ServerPort.Game start ${ServerPort.Game}`);
 }
 bootstrap();

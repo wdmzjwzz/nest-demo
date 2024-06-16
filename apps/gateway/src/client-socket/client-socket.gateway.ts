@@ -4,6 +4,7 @@ import { Observable, interval, map } from 'rxjs';
 import { Server } from 'socket.io';
 import { GatewayService } from '../gateway.service';
 import { error } from 'console';
+import { Logger } from '@nestjs/common';
 
 @WebSocketGateway(ServerPort.WebSocketPort, {
   cors: {
@@ -25,16 +26,13 @@ export class ClientSocketGateway {
     const { token } = data
     try {
       const payload = await this.gatewayService.checkToken(token);
-      payload.subscribe(data => { 
-        this.gatewayService.enterGame(data.data.email);
-      })
-
-      return payload.pipe(map(item => ({ event: 'EnterGame', data: item.data })));
+      const player = await this.gatewayService.enterGame(payload.data.email, payload.data.id);
+      return { event: 'EnterGame', data: JSON.parse(player) };
     } catch (error) {
       return {
         event: 'EnterGame',
         data: {
-          error: 'token 失效'
+          error: error
         }
       };
     }

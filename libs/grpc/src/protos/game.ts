@@ -10,16 +10,12 @@ import { Observable } from "rxjs";
 
 export interface EnterGameReq {
   email: string;
-  paylod: string;
+  id: string;
 }
 
 export interface EnterGameRes {
-  data: EnterGameResData | undefined;
+  player: string;
   error?: string | undefined;
-}
-
-export interface EnterGameResData {
-  email: string;
 }
 
 /** 获取当前玩家的角色列表 */

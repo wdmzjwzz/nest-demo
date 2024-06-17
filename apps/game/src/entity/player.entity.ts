@@ -8,7 +8,9 @@ export class Player {
   @Column()
   userId: string;
 
-  @Column()
+  @Column({
+    default: 0
+  })
   sceneId: number;
 
   @Column()
@@ -17,27 +19,61 @@ export class Player {
   @Column()
   updateTime: string;
 
-  @Column()
+  @Column({
+    default: '0,0,0'
+  })
   position: string;
 
-  @Column()
+  @Column({
+    default: 0
+  })
   level: number;
 
-  @Column()
+  @Column({
+    default: 100
+  })
   blood: number;
 
-  @Column()
+  @Column({
+    default:100
+  })
   fullBlood: number;
 
-  @Column()
+  @Column({
+    default: 0
+  })
   mana: number; // 法力
 
-  @Column()
+  @Column({
+    default: 0
+  })
+  manaQuality: number;
+
+  @Column({
+    default: 100
+  })
   fullMana: number;
 
   @Column()
-  religion: number; // 宗门
+  religionId: number; // 宗门
 
-  @Column()
-  powerAttr: number; // 灵根 
+  @Column({
+    default: 0
+  })
+  growth: number;
+
+  @Column({
+    default: 0
+  })
+  gender: number;
+
+  @Column({
+    default: 1
+  })
+  age: number;
+
+  @Column({
+    default: 100
+  })
+  life: number;
 }

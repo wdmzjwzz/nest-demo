@@ -43,17 +43,8 @@ export class PlayerService {
   private genPlayer(id: string) {
     const player = new Player();
     player.userId = id;
-    player.name = `道友_${id}`;
-    player.sceneId = 0;
-    player.position = '0,0,0'
-    player.blood = 100;
-    player.fullBlood = 100;
-    player.mana = 100;
-    player.fullMana = 100;
-    player.updateTime = new Date().getTime().toString();
-    player.level = 0;
-    player.powerAttr = 0;
-    player.religion = 0;
+    player.name = `道友_${id}`; 
+    player.updateTime = new Date().getTime().toString(); 
 
     return player
   }

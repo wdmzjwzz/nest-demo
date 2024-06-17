@@ -19,8 +19,8 @@ export class AuthController implements AuthServiceGrpcController {
     const res = await this.authService.vertifyToken(token); 
     return {
       data: {
-        email: res.email,
-        id: res.sub
+        email: res?.email,
+        id: res?.sub
       },
     }
   }

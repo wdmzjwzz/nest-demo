@@ -24,12 +24,11 @@ export enum Level {
     FOUR,
     FIVE,
     SIX,
-}
-
+} 
 
 export interface IPlayer {
     id: number;
-    
+
     userId: string;
 
     sceneId: number;

@@ -1,3 +1,4 @@
+import { Request } from 'express'
 interface Res {
     code: number,
     data: any
@@ -15,4 +16,8 @@ export class ErrorResponse<T> implements Res {
     constructor(data: T) {
         this.data = data
     }
+}
+export function extractTokenFromHeader(request: Request): string | undefined {
+    const [type, token] = request.headers.authorization?.split(' ') ?? [];
+    return type === 'Bearer' ? token : undefined;
 }

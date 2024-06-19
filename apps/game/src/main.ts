@@ -6,7 +6,7 @@ import { gameClientOptions } from '@app/grpc';
 import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
-  const app = await NestFactory.create(GameModule);
+  const app = await NestFactory.create(GameModule); 
   app.connectMicroservice<MicroserviceOptions>(gameClientOptions); 
   await app.startAllMicroservices();
 

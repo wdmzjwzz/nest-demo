@@ -32,4 +32,11 @@ export class GatewayService {
 
     return firstValueFrom($data);
   }
+  async getPlayer(id: string) {
+    const $data = this.gameServiceClient.getPlayer({
+      id
+    }).pipe(map(({ player }) => player))
+
+    return firstValueFrom($data);
+  }
 }

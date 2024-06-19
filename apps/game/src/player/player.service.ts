@@ -15,19 +15,10 @@ export class PlayerService {
     private readonly playerRepository: Repository<Player>,
   ) { }
 
-  async createPlayer({ id }: EnterGameReq) {
+  async createPlayer(id: string) {
     try {
-      let player = await this.getPlayerByUserId(id);
-      if (player) {
-        this.players.add(new PlayerManager(player))
-      } else {
-        player = this.genPlayer(id);
-        const newPlayerManager = new PlayerManager(player);
-        this.players.add(newPlayerManager);
-
-        this.insertPlayer(player);
-      }
-      return player;
+      const player = this.genPlayer(id);
+      await this.insertPlayer(player); 
     } catch (error) {
       Logger.error(error)
     }
@@ -43,12 +34,12 @@ export class PlayerService {
   private genPlayer(id: string) {
     const player = new Player();
     player.userId = id;
-    player.name = `道友_${id}`; 
-    player.updateTime = new Date().getTime().toString(); 
+    player.name = `道友_${id}`;
+    player.updateTime = new Date().getTime().toString();
 
     return player
   }
-  private getPlayerByUserId(id: string) {
+  getPlayerByUserId(id: string) {
     return this.playerRepository.findOneBy({ userId: String(id) });
   }
   private insertPlayer(data: Player) {

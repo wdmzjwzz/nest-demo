@@ -8,6 +8,10 @@
 import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
 import { Observable } from "rxjs";
 
+export interface GetPlayerReq {
+  id: string;
+}
+
 export interface EnterGameReq {
   email: string;
   id: string;
@@ -127,15 +131,19 @@ export interface StateFromServer {
 
 export interface GameServiceGrpcClient {
   enterGame(request: EnterGameReq, ...rest: any): Observable<EnterGameRes>;
+
+  getPlayer(request: GetPlayerReq, ...rest: any): Observable<EnterGameRes>;
 }
 
 export interface GameServiceGrpcController {
   enterGame(request: EnterGameReq, ...rest: any): Promise<EnterGameRes> | Observable<EnterGameRes> | EnterGameRes;
+
+  getPlayer(request: GetPlayerReq, ...rest: any): Promise<EnterGameRes> | Observable<EnterGameRes> | EnterGameRes;
 }
 
 export function GameServiceGrpcControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["enterGame"];
+    const grpcMethods: string[] = ["enterGame", "getPlayer"];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
       GrpcMethod("GameServiceGrpc", method)(constructor.prototype[method], method, descriptor);

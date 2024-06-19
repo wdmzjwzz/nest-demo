@@ -3,9 +3,12 @@ syntax = "proto3";
 package game;
 
 service GameServiceGrpc {
-  rpc enterGame(EnterGameReq) returns (EnterGameRes) {}
+  rpc enterGame(EnterGameReq) returns (EnterGameRes) {};
+  rpc getPlayer(GetPlayerReq) returns (EnterGameRes) {};
 }
-
+message GetPlayerReq {
+  string id = 1; 
+}
 message EnterGameReq {
   string email = 1;
   string id = 2;

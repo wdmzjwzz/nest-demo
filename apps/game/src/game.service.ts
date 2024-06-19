@@ -11,9 +11,13 @@ export class GameService {
   }
   async getPlayer(id: string) {
     let player = await this.playerService.getPlayerByUserId(id);
+    let newPlayer = false;
     if (!player) {
-      await this.playerService.createPlayer(id)
+      await this.playerService.createPlayer(id);
+      newPlayer = true;
     }
-    return this.playerService.getPlayerByUserId(id);
+    const playerData = await this.playerService.getPlayerByUserId(id);
+    playerData.newPlayer = newPlayer;
+    return playerData;
   }
 } 

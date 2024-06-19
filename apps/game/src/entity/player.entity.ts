@@ -35,7 +35,7 @@ export class Player {
   blood: number;
 
   @Column({
-    default:100
+    default: 100
   })
   fullBlood: number;
 
@@ -76,4 +76,6 @@ export class Player {
     default: 100
   })
   life: number;
+
+  newPlayer = false;
 }

@@ -32,11 +32,20 @@ export class GatewayService {
 
     return firstValueFrom($data);
   }
+
   async getPlayer(id: string) {
     const $data = this.gameServiceClient.getPlayer({
       id
     }).pipe(map(({ player }) => player))
 
+    return firstValueFrom($data);
+  }
+  /**
+   * 获取所有玩家列表
+   * @returns 
+   */
+  async getPlayers() {
+    const $data = this.gameServiceClient.getPlayers({}) 
     return firstValueFrom($data);
   }
 }

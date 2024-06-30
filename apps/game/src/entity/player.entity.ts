@@ -54,7 +54,9 @@ export class Player {
   })
   fullMana: number;
 
-  @Column()
+  @Column({
+    nullable: true
+  })
   religionId: number; // 宗门
 
   @Column({

@@ -1,10 +1,13 @@
-import { ServerPort } from '@app/common';
-import { MessageBody, SubscribeMessage, WebSocketGateway, WebSocketServer, WsResponse } from '@nestjs/websockets';
-import { Observable, interval, map } from 'rxjs';
-import { Server } from 'socket.io';
+import { RpcFunc, ServerPort } from '@app/common';
+import { ConnectedSocket, MessageBody, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
+import { Server, Socket } from 'socket.io';
 import { GatewayService } from '../gateway.service';
-import { error } from 'console';
-import { Logger } from '@nestjs/common';
+
+interface ClientSyncInput {
+  id: string;
+  vector: [x: number, y: number, z: number];
+  dt: number;
+}
 
 @WebSocketGateway(ServerPort.WebSocketPort, {
   cors: {
@@ -13,28 +16,65 @@ import { Logger } from '@nestjs/common';
 })
 export class ClientSocketGateway {
   constructor(private gatewayService: GatewayService) { }
+
+  clientMap = new Map<string, Socket>();
+
+  inputs: ClientSyncInput[] = [];
+
   @WebSocketServer()
   server: Server;
 
-  @SubscribeMessage('events')
-  findAll(@MessageBody() data: any): Observable<WsResponse<number>> {
-    return interval(1000).pipe(map(item => ({ event: 'events', data: item })));
-  }
-
-  @SubscribeMessage('EnterGame')
-  async enterGame(@MessageBody() data: any) {
-    const { token } = data
+  @SubscribeMessage(RpcFunc.EnterGame)
+  async enterGame(@MessageBody() data: any, @ConnectedSocket() client: Socket,) {
+    const { token } = data; 
     try {
-      const payload = await this.gatewayService.checkToken(token);
-      const player = await this.gatewayService.enterGame(payload.data.email, payload.data.id);
-      return { event: 'EnterGame', data: JSON.parse(player) };
+      const { data } = await this.gatewayService.checkToken(token);
+      this.clientMap.set(data.id, client);
+      this.startInterval(data.id)
+      const player = await this.gatewayService.enterGame(data.email, data.id);
+      return { event: RpcFunc.EnterGame, data: player };
     } catch (error) {
       return {
-        event: 'EnterGame',
+        event: RpcFunc.EnterGame,
         data: {
           error: error
         }
       };
     }
   }
+
+  @SubscribeMessage(RpcFunc.SyncClient)
+  async syncClient(@MessageBody() data: any) {
+    this.inputs.push(data);
+  }
+
+  @SubscribeMessage(RpcFunc.GetPlayers)
+  async getPlayers(@MessageBody() data: any) {
+    try {
+      const players = await this.gatewayService.getPlayers()
+      return { event: RpcFunc.GetPlayers, data: JSON.parse(players.data) };
+    } catch (error) {
+      return {
+        event: RpcFunc.GetPlayers,
+        data: {
+          error: error
+        }
+      };
+    }
+  }
+
+  private startInterval(id: string) {
+    const client = this.clientMap.get(id);
+    if (!client) {
+      throw new Error("client undefined");
+    }
+    setInterval(() => {
+      client.emit(RpcFunc.SyncClient, {
+        data: [...this.inputs],
+      })
+      this.inputs.length = 0;
+    }, 100)
+  }
+
+
 }

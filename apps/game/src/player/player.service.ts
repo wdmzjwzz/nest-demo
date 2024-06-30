@@ -7,8 +7,7 @@ import { EnterGameReq } from '@app/grpc';
 
 @Injectable()
 export class PlayerService {
-  players: Set<PlayerManager> = new Set();
-  playersMap: Map<string, PlayerManager> = new Map();
+  players: Set<PlayerManager> = new Set(); 
 
   constructor(
     @InjectRepository(Player)
@@ -18,15 +17,12 @@ export class PlayerService {
   async createPlayer(id: string) {
     try {
       const player = this.genPlayer(id);
-      await this.insertPlayer(player); 
+      await this.insertPlayer(player);
     } catch (error) {
       Logger.error(error)
     }
   }
-  getPlayer(userId: string) {
-    const { player } = this.playersMap.get(userId) || {};
-    return player
-  }
+ 
   /**
    *  随机生成一个新玩家
    * @returns 
@@ -38,6 +34,10 @@ export class PlayerService {
     player.updateTime = new Date().getTime().toString();
 
     return player
+  }
+
+  getAllPlayers() {
+    return this.playerRepository.find();
   }
   getPlayerByUserId(id: string) {
     return this.playerRepository.findOneBy({ userId: String(id) });

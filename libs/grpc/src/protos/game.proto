@@ -5,6 +5,7 @@ package game;
 service GameServiceGrpc {
   rpc enterGame(EnterGameReq) returns (EnterGameRes) {};
   rpc getPlayer(GetPlayerReq) returns (EnterGameRes) {};
+  rpc getPlayers(ListActorReq) returns (ListActorRes) {};
 }
 message GetPlayerReq {
   string id = 1; 
@@ -26,13 +27,9 @@ message ListActorReq {
 }
 
 message ListActorRes {
-  ListActorResData data = 1;
+  string data = 1;
   optional string error = 2;
-}
-
-message ListActorResData{
-  repeated IActor actors = 1;
-}
+} 
 
 // 创建角色
 message CreateActorReq{

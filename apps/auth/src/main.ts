@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core'; 
-import { ServerPort } from '@app/common';
+import { ServerPort } from '@define/common';
 import { authClientOptions } from '@app/grpc';
 import { MicroserviceOptions } from '@nestjs/microservices';
 import { Logger } from '@nestjs/common';

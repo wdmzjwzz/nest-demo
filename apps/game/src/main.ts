@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { GameModule } from './game.module';
-import { ServerPort } from '@app/common';
+import { ServerPort } from '@define/common';
 import { MicroserviceOptions } from '@nestjs/microservices';
 import { gameClientOptions } from '@app/grpc';
 import { Logger } from '@nestjs/common';

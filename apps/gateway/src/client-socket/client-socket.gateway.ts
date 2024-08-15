@@ -1,4 +1,4 @@
-import { RpcFunc, ServerPort } from '@app/common';
+import { RpcFunc, ServerPort } from '@define/common';
 import { ConnectedSocket, MessageBody, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { GatewayService } from '../gateway.service';
@@ -26,11 +26,11 @@ export class ClientSocketGateway {
 
   @SubscribeMessage(RpcFunc.EnterGame)
   async enterGame(@MessageBody() data: any, @ConnectedSocket() client: Socket,) {
-    const { token } = data; 
+    const { token } = data;
     try {
       const { data } = await this.gatewayService.checkToken(token);
       this.clientMap.set(data.id, client);
-      this.startInterval(data.id)
+      // this.startInterval(data.id)
       const player = await this.gatewayService.enterGame(data.email, data.id);
       return { event: RpcFunc.EnterGame, data: player };
     } catch (error) {
@@ -44,13 +44,13 @@ export class ClientSocketGateway {
   }
 
   @SubscribeMessage(RpcFunc.SyncClient)
-  async syncClient(@MessageBody() data: any) {
-    this.inputs.push(data);
+  async syncClient(@MessageBody() data: any) { 
+    this.inputs.push(data); 
   }
 
   @SubscribeMessage(RpcFunc.GetPlayers)
   async getPlayers(@MessageBody() data: any) {
-    try {
+    try { 
       const players = await this.gatewayService.getPlayers()
       return { event: RpcFunc.GetPlayers, data: JSON.parse(players.data) };
     } catch (error) {
@@ -63,18 +63,17 @@ export class ClientSocketGateway {
     }
   }
 
-  private startInterval(id: string) {
-    const client = this.clientMap.get(id);
-    if (!client) {
-      throw new Error("client undefined");
-    }
-    setInterval(() => {
-      client.emit(RpcFunc.SyncClient, {
-        data: [...this.inputs],
-      })
-      this.inputs.length = 0;
-    }, 100)
-  }
-
-
+  // private startInterval(id: string) {
+  //   const client = this.clientMap.get(id);
+  //   if (!client) {
+  //     throw new Error("client undefined");
+  //   }
+  //   setInterval(() => {
+  //     console.log(this.inputs);
+  //     client.emit(RpcFunc.SyncClient, {
+  //       data: [...this.inputs],
+  //     })
+  //     this.inputs.length = 0;
+  //   }, 50)
+  // }
 }

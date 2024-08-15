@@ -1,3 +1,4 @@
+import { SceneId } from '@define/common';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -9,9 +10,9 @@ export class Player {
   userId: string;
 
   @Column({
-    default: 0
+    default: SceneId.MainScene
   })
-  sceneId: number;
+  sceneId: string;
 
   @Column()
   name: string;
@@ -80,4 +81,5 @@ export class Player {
   life: number;
 
   newPlayer = false;
+
 }

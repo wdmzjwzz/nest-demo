@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { GatewayModule } from './gateway.module';
-import { ServerPort } from '@app/common';
+import { ServerPort } from '@define/common';
 import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
